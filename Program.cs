@@ -72,7 +72,7 @@ namespace test3
         {
             letter = letter.ToLower();
             word = word.ToLower();
-            int[] pozycja= {99,99,99,99,99};
+            int[] pozycja= {99,99,99,99,99,99,99};
             int index = 0;
             for (int k=0; k < word.Length; k++)
             {                
@@ -106,7 +106,7 @@ namespace test3
         public static void UpdateConsole(int life,string puste, string[] notInWord)
         {
             Console.Clear();
-            Console.WriteLine(" Life : {0}", life);
+            Console.WriteLine("Life : {0}", life);
             Console.WriteLine("Letters not in word: {0}", string.Join(" ",notInWord));
             switch (life)
             {
@@ -195,21 +195,37 @@ namespace test3
                 return true;
             }
         }
-
+        public static void SafeToFile(string name,string time,int guessTime, string guessWord,string path)
+        {
+            using (System.IO.StreamWriter sw = System.IO.File.AppendText(path))
+            {
+                sw.WriteLine(name + " " + time + " " + guessTime.ToString() + " " + guessWord);
+            }
+        }
 
 
         static void Main(string[] args)
         {
-            again:
+        again:
+            string highscorePath = @"C:\Users\jaszc\source\repos\test3\highscore.txt";
+            if (!System.IO.File.Exists(highscorePath))
+            {
+                using (System.IO.StreamWriter sw = System.IO.File.CreateText(highscorePath))
+                {
+
+                }
+            }
             int life = 5;
+            int life2 = 5;
             string[] para = ChooseWord();
             string guess = "";
             string choice = "";
             string[] letterNotInWord = new string[5];
-            Console.WriteLine(para[0]);
-            Console.WriteLine(para[1]);
+            int countGuesses = 0;
+            //Console.WriteLine(para[0]);
+            //Console.WriteLine(para[1]);
             string puste = WordToBlank(para);
-            Console.WriteLine(puste);
+            //Console.WriteLine(puste);
             //Console.WriteLine("Podaj litere: ");
             //string l = Console.ReadLine();
 
@@ -222,6 +238,7 @@ namespace test3
             */
             //Console.ReadLine();
             Console.WriteLine("Welcome to hangman game!");
+            DateTime time1 = DateTime.Now;
             while (IsWordCorrect(guess, para[1]) == false)
             {
                 UpdateConsole(life, puste, letterNotInWord);
@@ -236,6 +253,7 @@ namespace test3
                 {
                     Console.WriteLine("Please type a letter: ");
                     string l = Console.ReadLine();
+                    countGuesses++;
                     if (IsLetterInWord(l, para[1]))
                     {
                         int[] arraywithletter = HowManyLettersInWord(l, para[1]);
@@ -245,13 +263,21 @@ namespace test3
                         {
                             guess = para[1];
                             UpdateConsole(life, puste, letterNotInWord);
+                            DateTime time2 = DateTime.Now;
                             Console.WriteLine("You are winner!");
+                            Console.WriteLine("You guessed the capital after {0} letters",countGuesses);
+                            Console.WriteLine(" It took you {0} sekonds", (time2 - time1).Seconds);
+                            Console.WriteLine("Enter your name :");
+                            string name = Console.ReadLine();
+                            string timescore = time2.Day.ToString()+"."+time2.Month.ToString()+"."+time2.Year.ToString()+" "+time2.Hour.ToString() + ":" + time2.Minute.ToString();
+                            SafeToFile(name, timescore, (time2 - time1).Seconds, para[1], highscorePath);
                         }
                     }
                     else
                     {
-                        letterNotInWord[5 - life] = l;
+                        letterNotInWord[5 - life2] = l;
                         life--;
+                        life2--;
 
                         UpdateConsole(life, puste, letterNotInWord);
                         if (IsAlife(life) == false)
@@ -271,6 +297,13 @@ namespace test3
                     {
                         UpdateConsole(life, para[1], letterNotInWord);
                         Console.WriteLine("You are winner!");
+                        Console.WriteLine("You guessed the capital after {0} letters", countGuesses);
+                        DateTime time2 = DateTime.Now;
+                        Console.WriteLine("It took you {0} sekonds", (time2 - time1).Seconds);
+                        Console.WriteLine("Enter your name :");
+                        string name = Console.ReadLine();
+                        string timescore = time2.Day.ToString() + " " + time2.Month.ToString() + " " + time2.Year.ToString() + " "+time2.Hour.ToString() + ":" + time2.Minute.ToString();
+                        SafeToFile(name, timescore, (time2 - time1).Seconds, para[1], highscorePath);
                     }
                     else
                     {
