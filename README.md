@@ -1,11 +1,8 @@
 # test3
 test no 3
 
-Dear Sir/Madam,
+Hi,
 
-my name is Sebastian. Why do I code?
+Why do I code?
 Answer is simple. I like to make new things, add something to it and check if it works.
 Searching for new and better solutions enjoys me.
-
-Kind regards,
-Sebastian
