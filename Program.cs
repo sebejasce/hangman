@@ -318,16 +318,45 @@ namespace test3
             }
         repeat:
             string[][] scorelines = ReadHighScoreFile(highscorePath);
-            for (int i=0; i <= scorelines.Length-1; i++)
+            int firstTen = 0;
+            int limit = scorelines.Length - 1;
+            string[][] highTen = new string[10][];
+            while (firstTen < 10)
             {
-                if (i == 10)
+                for (int i = 0; i <= 120; i++)
                 {
+                   for (int j = 0; j <= limit; j++)
+                    {
+                        if (firstTen == 10)
+                        {
+                            break;
+                        }
+                        if (Convert.ToInt32(scorelines[j][2]) == i)
+                        {
+                            highTen[firstTen] = scorelines[j];
+                            firstTen++;
+                        }
+                        
+                    }
+                }
+                if (firstTen <= 10)
+                {
+                    for (int i = firstTen; i < 10; i++)
+                    {
+                        string xxx = " ";
+                        highTen[i]= "empty empty empty empty".Split(xxx,4,StringSplitOptions.RemoveEmptyEntries);
+                    }
                     break;
                 }
-                Console.WriteLine(string.Join("|",scorelines[i]));
+            }
+            Console.WriteLine("\nHigh Score - 10 best scores :");
+            for (int i=0; i <= highTen.Length-1; i++)
+            {                             
+                Console.WriteLine(string.Join("|",highTen[i]));
             }
             
-            Console.WriteLine("Play again? y/n");
+            
+            Console.WriteLine("\nPlay again? y/n");
             string x=Console.ReadLine();
             switch (x.ToUpper())
             {
