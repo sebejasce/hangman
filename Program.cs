@@ -18,6 +18,19 @@ namespace test3
             return countCap;
 
         }
+        public static string[][] ReadHighScoreFile(string path)
+        {
+            string[] dane = System.IO.File.ReadAllLines(path);
+            string[][] linie = new string[dane.Length][];
+            string[] separator = { "|" };
+            for ( int i=0; i <= dane.Length-1; i++)
+            {
+                linie[i] = dane[i].Split(separator, 4, StringSplitOptions.RemoveEmptyEntries);
+            }
+            return linie;
+
+
+        }
 
         public static string WordToBlank(string[] pair) //function returns word as blank like: word -> _ _ _ _
         {
@@ -196,7 +209,7 @@ namespace test3
         {
             using (System.IO.StreamWriter sw = System.IO.File.AppendText(path))
             {
-                sw.WriteLine(name + " " + time + " " + guessTime.ToString() + " " + guessWord);
+                sw.WriteLine(name + "|" + time + "|" + guessTime.ToString() + "|" + guessWord);
             }
         }
 
@@ -219,21 +232,7 @@ namespace test3
             string choice = "";
             string[] letterNotInWord = new string[5];
             int countGuesses = 0;
-            //Console.WriteLine(para[0]);
-            //Console.WriteLine(para[1]);
             string puste = WordToBlank(para);
-            //Console.WriteLine(puste);
-            //Console.WriteLine("Podaj litere: ");
-            //string l = Console.ReadLine();
-
-            //Console.WriteLine(string.Join(" ",arraywithletter));
-            /*if (IsLetterInWord(l,para[1]) == true)
-            {
-                Console.WriteLine(FillGuess(l, puste, arraywithletter));
-            }
-
-            */
-            //Console.ReadLine();
             Console.WriteLine("Welcome to hangman game!");
             DateTime time1 = DateTime.Now;
             while (IsWordCorrect(guess, para[1]) == false)
@@ -263,11 +262,11 @@ namespace test3
                             DateTime time2 = DateTime.Now;
                             Console.WriteLine("You are winner!");
                             Console.WriteLine("You guessed the capital after {0} letters",countGuesses);
-                            Console.WriteLine(" It took you {0} sekonds", (time2 - time1).Seconds);
+                            Console.WriteLine(" It took you {0} sekonds", Convert.ToInt32((time2 - time1).TotalSeconds));
                             Console.WriteLine("Enter your name :");
                             string name = Console.ReadLine();
                             string timescore = time2.Day.ToString()+"."+time2.Month.ToString()+"."+time2.Year.ToString()+" "+time2.Hour.ToString() + ":" + time2.Minute.ToString();
-                            SafeToFile(name, timescore, (time2 - time1).Seconds, para[1], highscorePath);
+                            SafeToFile(name, timescore, Convert.ToInt32((time2 - time1).TotalSeconds), para[1], highscorePath);
                         }
                     }
                     else
@@ -296,11 +295,11 @@ namespace test3
                         Console.WriteLine("You are winner!");
                         Console.WriteLine("You guessed the capital after {0} letters", countGuesses);
                         DateTime time2 = DateTime.Now;
-                        Console.WriteLine("It took you {0} sekonds", (time2 - time1).Seconds);
+                        Console.WriteLine("It took you {0} sekonds", Convert.ToInt32((time2 - time1).TotalSeconds));
                         Console.WriteLine("Enter your name :");
                         string name = Console.ReadLine();
-                        string timescore = time2.Day.ToString() + " " + time2.Month.ToString() + " " + time2.Year.ToString() + " "+time2.Hour.ToString() + ":" + time2.Minute.ToString();
-                        SafeToFile(name, timescore, (time2 - time1).Seconds, para[1], highscorePath);
+                        string timescore = time2.Day.ToString() + "." + time2.Month.ToString() + "." + time2.Year.ToString() + " "+time2.Hour.ToString() + ":" + time2.Minute.ToString();
+                        SafeToFile(name, timescore, Convert.ToInt32((time2 - time1).TotalSeconds), para[1], highscorePath);
                     }
                     else
                     {
@@ -317,8 +316,17 @@ namespace test3
                     }
                 }
             }
-            repeat:
-
+        repeat:
+            string[][] scorelines = ReadHighScoreFile(highscorePath);
+            for (int i=0; i <= scorelines.Length-1; i++)
+            {
+                if (i == 10)
+                {
+                    break;
+                }
+                Console.WriteLine(string.Join("|",scorelines[i]));
+            }
+            
             Console.WriteLine("Play again? y/n");
             string x=Console.ReadLine();
             switch (x.ToUpper())
