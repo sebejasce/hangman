@@ -4,7 +4,7 @@ namespace test3
 {
     class Program
     {
-        public static string[] ChooseWord()
+        public static string[] ChooseWord()//function returns array with random pair of country and capital from file
         {
             // reading the file
             string[] dane = System.IO.File.ReadAllLines(@"C:\Users\jaszc\source\repos\test3\countries_and_capitals.txt");
@@ -19,7 +19,7 @@ namespace test3
 
         }
 
-        public static string WordToBlank(string[] pair) 
+        public static string WordToBlank(string[] pair) //function returns word as blank like: word -> _ _ _ _
         {
             string blank = "";
             for (int i =0; i< pair[1].Length; i++)
@@ -28,7 +28,7 @@ namespace test3
             }
             return blank;
         }
-        public static bool IfBlankFilled(string blank)
+        public static bool IfBlankFilled(string blank) //function checks if blank word is filled by guessing letters
         {
             for (int i=0; i < blank.Length; i++)
             {
@@ -41,7 +41,7 @@ namespace test3
 
         }
 
-        public static bool IsLetterInWord(string letter, string word)
+        public static bool IsLetterInWord(string letter, string word) //function checks if guessing letter is in word
         {
             word = word.ToLower();
             int i = word.IndexOf(letter);
@@ -54,7 +54,7 @@ namespace test3
                 return true;
             }
         }
-        public static bool IsWordCorrect(string guess,string word)
+        public static bool IsWordCorrect(string guess,string word) //function checks if guess word is equal to secret word
         {
             guess = guess.ToLower();
             word = word.ToLower();
@@ -68,11 +68,11 @@ namespace test3
             }
         }
 
-        public static int[] HowManyLettersInWord(string letter,string word)
+        public static int[] HowManyLettersInWord(string letter,string word) // helpfull function checks how many times letter is in word and saves results in array
         {
             letter = letter.ToLower();
             word = word.ToLower();
-            int[] pozycja= {99,99,99,99,99,99,99};
+            int[] pozycja= {99,99,99,99,99,99,99,99,99,99,99,99,99,99,99};
             int index = 0;
             for (int k=0; k < word.Length; k++)
             {                
@@ -86,11 +86,8 @@ namespace test3
             return pozycja;
             
         }
-        public static string FillGuess(string letter, string empty, int[] where)
-        {
-            
-
-            
+        public static string FillGuess(string letter, string empty, int[] where) //function fills 'blank word' with correct guessed letters
+        {           
             foreach (int index in where)
             {
                 int poz = index * 2;
@@ -103,7 +100,7 @@ namespace test3
             return empty;
         }
 
-        public static void UpdateConsole(int life,string puste, string[] notInWord)
+        public static void UpdateConsole(int life,string puste, string[] notInWord) //function draw info in console
         {
             Console.Clear();
             Console.WriteLine("Life : {0}", life);
@@ -184,7 +181,7 @@ namespace test3
             }
             Console.WriteLine(puste);
         }
-        public static bool IsAlife(int life)
+        public static bool IsAlife(int life) //function checks if a player still has chance to guess
         {
             if (life <= 0)
             {
@@ -195,7 +192,7 @@ namespace test3
                 return true;
             }
         }
-        public static void SafeToFile(string name,string time,int guessTime, string guessWord,string path)
+        public static void SafeToFile(string name,string time,int guessTime, string guessWord,string path) //function writes score to file
         {
             using (System.IO.StreamWriter sw = System.IO.File.AppendText(path))
             {
