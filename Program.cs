@@ -316,14 +316,14 @@ namespace test3
                     }
                 }
             }
-        repeat:
+        
             string[][] scorelines = ReadHighScoreFile(highscorePath);
             int firstTen = 0;
             int limit = scorelines.Length - 1;
             string[][] highTen = new string[10][];
             while (firstTen < 10)
             {
-                for (int i = 0; i <= 120; i++)
+                for (int i = 0; i <= 170; i++)
                 {
                    for (int j = 0; j <= limit; j++)
                     {
@@ -354,8 +354,8 @@ namespace test3
             {                             
                 Console.WriteLine(string.Join("|",highTen[i]));
             }
-            
-            
+
+        repeat:
             Console.WriteLine("\nPlay again? y/n");
             string x=Console.ReadLine();
             switch (x.ToUpper())

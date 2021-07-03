@@ -6,3 +6,5 @@ Sebek|3.7.2021 18:32|44|Kingston
 Seba|3.7.2021 18:34|27|Kuala Lumpur
 Seba|3.7.2021 18:41|8|Bratislava
 Sebastian|3.7.2021 21:31|27|Montevideo
+Sebastian|3.7.2021 21:34|16|Algiers
+Seba|3.7.2021 21:35|38|Beirut
